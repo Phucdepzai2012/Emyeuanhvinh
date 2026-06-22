@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Love Anh Vinh Đẹp Trai</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0b0205;
+        }
+
+        /* Video nền hiển thị toàn màn hình từ link trực tuyến bypass CORS */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        /* Lớp phủ mờ giúp chữ nổi bật và lãng mạn */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(15, 4, 8, 0.4), rgba(40, 5, 15, 0.5));
+            z-index: 2;
+        }
+
+        /* Phần chứa nội dung chữ */
+        .content-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 4;
+            text-align: center;
+            width: 90%;
+            max-width: 700px;
+            pointer-events: none;
+            padding: 20px;
+        }
+
+        /* Hiệu ứng chữ phát sáng Neon nhịp đập */
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 0 10px #ff4d6d, 0 0 20px #ff4d6d, 0 0 35px #ff4d6d, 0 0 50px #ff758f;
+            margin-bottom: 25px;
+            text-transform: capitalize;
+            letter-spacing: 1px;
+            animation: pulse 2.5s infinite ease-in-out alternate;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #ffe5ec;
+            text-shadow: 0 0 8px #ff758f, 0 0 20px #ff758f;
+            letter-spacing: 2px;
+            animation: pulse 2.5s infinite ease-in-out alternate-reverse;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.96);
+                text-shadow: 0 0 10px #ff4d6d, 0 0 20px #ff4d6d, 0 0 30px #ff4d6d;
+            }
+            100% {
+                transform: scale(1.04);
+                text-shadow: 0 0 15px #ff4d6d, 0 0 30px #ff758f, 0 0 50px #ff758f, 0 0 70px #ff8fa3;
+            }
+        }
+
+        /* Khu vực chứa hiệu ứng tim bay auto lặp lại */
+        .heart-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -10%;
+            opacity: 0;
+            animation: flyUp linear forwards;
+            filter: drop-shadow(0 0 5px rgba(255, 77, 109, 0.6));
+        }
+
+        @keyframes flyUp {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg) scale(0.4);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.85;
+            }
+            85% {
+                opacity: 0.85;
+            }
+            100% {
+                transform: translateY(-115vh) translateX(var(--random-x)) rotate(var(--random-rotate)) scale(var(--random-scale));
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <video class="video-background" autoplay muted loop playsinline id="bgVideo" crossorigin="anonymous">
+        <source src="https://res.cloudinary.com/demo/video/upload/c_fill,g_auto,h_1080,w_1920/elephants.mp4" type="video/mp4">
+        Trình duyệt của bạn không hỗ trợ thẻ video.
+    </video>
+
+    <div class="overlay"></div>
+    <div class="heart-container" id="heartContainer"></div>
+
+    <div class="content-container">
+        <h1>i love anh vinh deptrai number 1</h1>
+        <h2>em yêu sếp ❤️</h2>
+    </div>
+
+    <script>
+        // Hiệu ứng tạo tim bay tự động liên tục
+        const heartContainer = document.getElementById('heartContainer');
+        const heartTypes = ['❤️', '💖', '💝', '💕', '💗'];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = heartTypes[Math.floor(Math.random() * heartTypes.length)];
+            
+            const startX = Math.random() * 100;
+            heart.style.left = startX + '%';
+            
+            const size = Math.random() * 20 + 18;
+            heart.style.fontSize = size + 'px';
+            
+            const duration = Math.random() * 4 + 4;
+            heart.style.animationDuration = duration + 's';
+            
+            const randomX = (Math.random() * 240 - 120) + 'px';
+            const randomRotate = (Math.random() * 360 - 180) + 'deg';
+            const randomScale = Math.random() * 0.5 + 0.8;
+            
+            heart.style.setProperty('--random-x', randomX);
+            heart.style.setProperty('--random-rotate', randomRotate);
+            heart.style.setProperty('--random-scale', randomScale);
+            
+            heartContainer.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+
+        setInterval(createHeart, 120);
+
+        // Đảm bảo video luôn tự phát mượt mà trên mọi loại điện thoại (iOS & Android)
+        document.addEventListener('DOMContentLoaded', () => {
+            const video = document.getElementById('bgVideo');
+            if (video) {
+                // Thêm thuộc tính để kích hoạt chạy trên nền tảng di động khắt khe
+                video.setAttribute('autoplay', '');
+                video.setAttribute('muted', '');
+                video.setAttribute('playsinline', '');
+                
+                let playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => {
+                        // Nếu trình duyệt điện thoại chặn tự động phát, video sẽ phát ngay khi chạm nhẹ vào màn hình
+                        document.addEventListener('click', () => { video.play(); }, { once: true });
+                        document.addEventListener('touchstart', () => { video.play(); }, { once: true });
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
