@@ -19,7 +19,7 @@
             background-color: #0b0205;
         }
 
-        /* Video nền hiển thị toàn màn hình từ link trực tuyến bypass CORS */
+        /* Video nền hiển thị toàn màn hình */
         .video-background {
             position: absolute;
             top: 0;
@@ -30,7 +30,7 @@
             z-index: 1;
         }
 
-        /* Lớp phủ mờ giúp chữ nổi bật và lãng mạn */
+        /* Lớp phủ mờ lãng mạn */
         .overlay {
             position: absolute;
             top: 0;
@@ -126,8 +126,9 @@
 </head>
 <body>
 
-    <video class="video-background" autoplay muted loop playsinline id="bgVideo" crossorigin="anonymous">
-        <source src="https://res.cloudinary.com/demo/video/upload/c_fill,g_auto,h_1080,w_1920/elephants.mp4" type="video/mp4">
+    <!-- Video gốc của bạn từ link Catbox -->
+    <video class="video-background" autoplay muted loop playsinline id="bgVideo" preload="auto">
+        <source src="https://files.catbox.moe/2jf1em.mp4" type="video/mp4">
         Trình duyệt của bạn không hỗ trợ thẻ video.
     </video>
 
@@ -175,25 +176,24 @@
 
         setInterval(createHeart, 120);
 
-        // Đảm bảo video luôn tự phát mượt mà trên mọi loại điện thoại (iOS & Android)
-        document.addEventListener('DOMContentLoaded', () => {
-            const video = document.getElementById('bgVideo');
+        // Ép video phải tự chạy bất kể cơ chế chặn của trình duyệt di động
+        const video = document.getElementById('bgVideo');
+        
+        function forcePlayVideo() {
             if (video) {
-                // Thêm thuộc tính để kích hoạt chạy trên nền tảng di động khắt khe
-                video.setAttribute('autoplay', '');
-                video.setAttribute('muted', '');
-                video.setAttribute('playsinline', '');
-                
-                let playPromise = video.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(() => {
-                        // Nếu trình duyệt điện thoại chặn tự động phát, video sẽ phát ngay khi chạm nhẹ vào màn hình
-                        document.addEventListener('click', () => { video.play(); }, { once: true });
-                        document.addEventListener('touchstart', () => { video.play(); }, { once: true });
-                    });
-                }
+                video.play().catch(err => {
+                    console.log("Trình duyệt đang chặn autoplay, đợi user tương tác.");
+                });
             }
-        });
+        }
+
+        // Thử chạy ngay khi load xong
+        window.addEventListener('load', forcePlayVideo);
+        document.addEventListener('DOMContentLoaded', forcePlayVideo);
+
+        // Dự phòng: Nếu vào bằng điện thoại mà bị đen màn hình, chỉ cần CHẠM nhẹ vào màn hình là video chạy liền
+        document.addEventListener('touchstart', forcePlayVideo, { once: true });
+        document.addEventListener('click', forcePlayVideo, { once: true });
     </script>
 </body>
 </html>
